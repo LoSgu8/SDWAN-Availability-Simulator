@@ -2,8 +2,6 @@ function sdwan_status = compute_sdwan_signal( ...
     cpe_status_signals, tunnel_signals, initial_active_tunnel,...
     controller_status_signal, c2cpe_signals, time_points, to_plot)
 
-    load('general_parameters.mat');
-
     active_tunnel = ones(1,numel(time_points));
     active_tunnel(1,1) = initial_active_tunnel;
     
@@ -41,16 +39,16 @@ function sdwan_status = compute_sdwan_signal( ...
                     if available_tunnel % if available switch starting from next sample time
                         active_tunnel(1,t_idx+1:end) = tunnel_idx;
                         if to_plot
-                            disp([ char(9) 'at t=' num2str(t_idx*sampling_time_interval) ' tunnel switched from ' num2str(active_tunnel(1,t_idx)) ' to ' num2str(active_tunnel(1,t_idx+1))])
+                            %disp([ char(9) 'at t=' num2str(t_idx*sampling_time_interval) ' tunnel switched from ' num2str(active_tunnel(1,t_idx)) ' to ' num2str(active_tunnel(1,t_idx+1))])
                         end
                     else
                         if to_plot
-                            disp([ char(9) 'at t=' num2str(t_idx*sampling_time_interval) ' no available tunnel has been found'])
+                            %disp([ char(9) 'at t=' num2str(t_idx*sampling_time_interval) ' no available tunnel has been found'])
                         end
                     end
                 else
                     if to_plot
-                        disp([ char(9) 'at t=' num2str(t_idx*sampling_time_interval) ' the tunnel cannot be switched due to control plane failure'])
+                        %disp([ char(9) 'at t=' num2str(t_idx*sampling_time_interval) ' the tunnel cannot be switched due to control plane failure'])
                     end
                 end
     
@@ -73,6 +71,8 @@ function sdwan_status = compute_sdwan_signal( ...
         xlabel('time [h]')
         ylim([-0.1, 1.1]);
         yticks([0, 1]);
+        yticklabels({'down', 'up'}); % Set y-axis tick labels
+        grid on
         
         legend(cellstr(strcat('T', string(1:nb_tunnels))))
         
@@ -83,6 +83,8 @@ function sdwan_status = compute_sdwan_signal( ...
         xlabel('time [h]')
         ylim([-0.1, 1.1]);
         yticks([0, 1]);
+        yticklabels({'down', 'up'}); % Set y-axis tick labels
+        grid on
 
         subplot(7,1,[3,4]);
         plot(time_points, sdwan_status, 'r', 'LineWidth', 2);
@@ -90,14 +92,17 @@ function sdwan_status = compute_sdwan_signal( ...
         xlabel('time [h]')
         ylim([-0.1, 1.1]);
         yticks([0, 1]);
+        yticklabels({'down', 'up'}); % Set y-axis tick labels
+        grid on
         
         subplot(7,1,5)
         plot(time_points, active_tunnel)
         title('Active tunnel history')
         ylabel('# of the active tunnel')
         xlabel('time [h]')
-        ylim([0, nb_tunnels+0.1]);
-        yticks(0:nb_tunnels);
+        ylim([0.9, nb_tunnels + 0.1]);
+        yticks(1:nb_tunnels);
+        grid on
         
         
         subplot(7,1,6)
@@ -106,6 +111,8 @@ function sdwan_status = compute_sdwan_signal( ...
         xlabel('time [h]')
         ylim([-0.1, 1.1]);
         yticks([0, 1]);
+        yticklabels({'down', 'up'});
+        grid on
         
         subplot(7,1,7)
         plot(time_points, c2cpe_signals)
@@ -114,6 +121,8 @@ function sdwan_status = compute_sdwan_signal( ...
         xlabel('time [h]')
         ylim([-0.1, 1.1]);
         yticks([0, 1]);
+        yticklabels({'down', 'up'}); % Set y-axis tick labels
+        grid on
     end
 
 end

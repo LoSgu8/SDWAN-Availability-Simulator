@@ -93,6 +93,7 @@ cpe_parameters(2) = cpe;
 
 
 %% CONTROLLER PARAMETERS
+controller.nb_replicas = 1;
 % Software module
 controller.sw.initial_status = 1;
 controller.sw.fail_distribution = 'exp';

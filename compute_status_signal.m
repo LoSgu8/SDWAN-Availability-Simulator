@@ -15,7 +15,7 @@ function status_signal = compute_status_signal(initial_status, failure_distribut
             if strcmp(failure_distribution, 'exp')
                 failure_time = exprnd(1/failure_parameters.lambda);
             else
-                error('probability distribution not managed');
+                error('probability distribution not known');
             end
             rounded_failure_time = round(failure_time / time_interval) * time_interval;
             num_elements = round(rounded_failure_time / time_interval);
