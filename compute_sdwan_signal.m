@@ -1,6 +1,6 @@
 function sdwan_status = compute_sdwan_signal( ...
     cpe_status_signals, tunnel_signals, initial_active_tunnel,...
-    controller_status_signal, c2cpe_signals, time_points, to_plot)
+    controller_status_signals, c2cpe_signals, time_points, to_plot)
 
     active_tunnel = ones(1,numel(time_points));
     active_tunnel(1,1) = initial_active_tunnel;
@@ -21,7 +21,7 @@ function sdwan_status = compute_sdwan_signal( ...
             % starting from the next time slot
             if tunnel_signals(active_tunnel(1,t_idx),t_idx) == 0
                 is_C2CPE_available = all(c2cpe_signals(:,t_idx)==1);
-                is_CP_available = is_C2CPE_available & controller_status_signal(t_idx);
+                is_CP_available = is_C2CPE_available & any(controller_status_signals(:,t_idx));
                 
     
                 if is_CP_available
@@ -106,13 +106,19 @@ function sdwan_status = compute_sdwan_signal( ...
         
         
         subplot(7,1,6)
-        plot(time_points, controller_status_signal)
-        title('Controller')
-        xlabel('time [h]')
-        ylim([-0.1, 1.1]);
-        yticks([0, 1]);
-        yticklabels({'down', 'up'});
-        grid on
+        for replica = 1 : numel(controller_status_signals(:,1))
+            plot(time_points, controller_status_signals)
+            title('Controllers')
+            xlabel('time [h]')
+            ylim([-0.1, 1.1]);
+            yticks([0, 1]);
+            yticklabels({'down', 'up'});
+            grid on
+            hold on
+        end
+    
+        legend(cellstr(strcat('C', string(1:numel(controller_status_signals(:,1))))))
+        hold off
         
         subplot(7,1,7)
         plot(time_points, c2cpe_signals)

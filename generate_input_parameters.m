@@ -1,5 +1,5 @@
-sampling_time_interval = 0.1; % hours
-simulation_time = 1000000; % hours
+sampling_time_interval = 0.01; % hours
+simulation_time = 100; % hours
 
 initial_active_tunnel = 1;
 
@@ -36,7 +36,7 @@ tunnel_parameters(1) = tunnel;
 
 % Tunnel 2
 %   Source Access Network
-tunnel.ANs.initial_status = 1/25000;
+tunnel.ANs.initial_status = 1;
 tunnel.ANs.fail_distribution = 'exp';
 tunnel.ANs.fail_parameters.lambda = 1/25000;
 tunnel.ANs.rep_distribution = 'exp';
@@ -66,7 +66,7 @@ cpe.sw.rep_distribution = 'exp';
 cpe.sw.rep_parameters.lambda = 1/0.001;
 
 % Hardware module
-cpe.hw.initial_status = true;
+cpe.hw.initial_status = 1;
 cpe.hw.fail_distribution = 'exp';
 cpe.hw.fail_parameters.lambda = 1/5000;
 cpe.hw.rep_distribution = 'exp';
